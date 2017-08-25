@@ -1,0 +1,9 @@
+django
+mysqlclient
+django-mysql
+djangorestframework
+django-cors-headers
+djangorestframework-jwt
+django-guardian
+jsonfield
+django-simple-history

@@ -1,0 +1,62 @@
+<form role="form" [formGroup]="softlayer_extra_input_Form" (ngSubmit)="addVendorDetails(addproductForm.value)">
+    <div class="widget-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <div formGroupName="domain_host_group"   *ngFor=" let index of quantity_length_arry;let i=index;">
+                    <div class="form-group row" >
+                        <label  class="col-md-4 col-form-label text-md-right required" >
+                            Host {{i+1}}
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text"  class="form-control" formControlName="host_{{i}}" placeholder="Please enter host">
+                            <span class="help-block" [style.font-weight] ="500" >test</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 ">
+                <div formGroupName="domain_host_group"   *ngFor=" let index of quantity_length_arry;let i=index;">
+                    <div class="form-group row" >
+                        <label  class="col-md-4 col-form-label text-md-right required" >
+                            Domain {{i+1}}
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" formControlName="domain_{{i}}"  class="form-control" placeholder="Please enter domain name">
+                            <span class="help-block">example.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 ">
+                <div class="form-group row">
+                    <label  class="col-md-4 col-form-label text-md-right required" >
+                        Data center
+                    </label>
+                    <div class="col-md-8">
+                        <select formControlName="datacenters" class="form-control">
+                            <option value="" class="form-control">Please select data center</option>
+                            <option *ngFor=" let machinetypedetail of datacenterOption" class="form-control"  value="{{machinetypedetail.id}}" >
+                                {{machinetypedetail.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 ">
+                <div class="form-group row" >
+                    <label  class="col-md-4 col-form-label text-md-right required" >
+                        Key Pair
+                    </label>
+                    <div class="col-md-8">
+                        <select class="form-control" formControlName="keypairId">
+                            <option value="" class="form-control">Please select Key Pair</option>
+                            <option *ngFor=" let keypairdetails of keyPairList" class="form-control"  value="{{keypairdetails.id}}" >
+                                {{keypairdetails.keyname}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,16 @@
+@media (min-width: 768px) {
+    .profile-element {
+        text-align: center;
+    }
+
+    .profile-element .img-circle {
+            width: 66px;
+        }
+}
+.sidebar-collapse {
+    height: 100vh;
+    background: #293846;
+}
+.navbar-static-top {
+    padding-right: 25px !important;
+}

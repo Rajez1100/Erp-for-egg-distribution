@@ -43,7 +43,7 @@ def jwt_response_payload_handler(token, user=None, request=None):
     }
 
 
-@method_decorator(permission_required('users.list_eduser', raise_exception=True), name='list')
+@method_decorator(permission_required('users.view_eduser', raise_exception=True), name='list')
 @method_decorator(permission_required('users.view_eduser', raise_exception=True), name='retrieve')
 @method_decorator(permission_required('users.add_eduser', raise_exception=True), name='create')
 @method_decorator(permission_required('users.change_eduser', raise_exception=True), name='update')
@@ -82,7 +82,7 @@ class UsersViewSet(viewsets.ModelViewSet):
             return Response({'msg': "Your old password was entered incorrectly"})
 
 
-@method_decorator(permission_required('auth.list_group', raise_exception=True), name='list')
+@method_decorator(permission_required('auth.view_group', raise_exception=True), name='list')
 @method_decorator(permission_required('auth.view_group', raise_exception=True), name='retrieve')
 @method_decorator(permission_required('auth.add_group', raise_exception=True), name='create')
 @method_decorator(permission_required('auth.change_group', raise_exception=True), name='update')

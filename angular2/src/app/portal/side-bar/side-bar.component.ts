@@ -11,6 +11,7 @@ import { CompanyName } from 'app/parameters';
 export class SideBarComponent implements OnInit {
   subscriptions: Object = {};
   user: User = new User();
+  companyName: string = CompanyName[1];
   companyShortName: string = CompanyName[0]; 
 
   constructor(

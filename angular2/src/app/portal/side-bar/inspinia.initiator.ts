@@ -278,6 +278,7 @@ export class InspiniaInitiator {
     }
 
     SmoothlyMenu() {
+        $('body').removeClass('body-small');
         if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
             // Hide menu in order to smoothly turn on when maximize menu
             $('#side-menu').hide();

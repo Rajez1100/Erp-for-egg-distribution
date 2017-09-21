@@ -6,13 +6,12 @@
     "module": "es2015",
     "types": [],
     "paths": {
-      "app": [
-        "*"
-      ]
+        "app": [ "./*" ]
     }
   },
   "exclude": [
     "test.ts",
     "**/*.spec.ts"
   ]
+  
 }

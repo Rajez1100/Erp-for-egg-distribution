@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { InspiniaInitiator } from './side-bar/inspinia.initiator';
+import { AddViewEditInterfaceComponent } from './add-view-edit-interface/add-view-edit-interface.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { InspiniaInitiator } from './side-bar/inspinia.initiator';
     DashboardComponent,
     NavBarComponent,
     SideBarComponent,
-    InspiniaInitiator
+    InspiniaInitiator,
+    AddViewEditInterfaceComponent
   ],
   providers: [
     

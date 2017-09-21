@@ -1,5 +1,5 @@
 // Imports & Providers
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_ROUTING, APP_ROUTER_PROVIDERS } from './app.routing';
 import { HttpModule, Http, RequestOptions, ResponseOptions } from '@angular/http';
@@ -9,7 +9,8 @@ import { AppComponent } from './app.component';
 
 import {
   AuthService, UserService, RolesService, GlobalsService, NotificationsService,
-  AipDirectoryService
+  AipDirectoryService, EggFarmsService, SalesTeamsService, EggCollectionsService,
+  DemandTransfersService, SalesSummaryService, PaymentsService
 } from 'app/services';
 
 @NgModule({
@@ -23,11 +24,7 @@ import {
     APP_ROUTING
   ],
   providers: [
-    {
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
-    },
+
     APP_ROUTER_PROVIDERS,
     AuthService,
     JwtHelper,
@@ -36,12 +33,30 @@ import {
     RolesService,
     GlobalsService,
     NotificationsService,
-    AipDirectoryService
+    AipDirectoryService,
+    EggFarmsService,
+    SalesTeamsService,
+    EggCollectionsService,
+    DemandTransfersService,
+    SalesSummaryService,
+    PaymentsService,
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    },
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    ServiceLocator.injector = this.injector;
+  }
+}
 
+export class ServiceLocator {
+  static injector: Injector;
+}
 
 // Service factory for angular2-jwt configuration
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {

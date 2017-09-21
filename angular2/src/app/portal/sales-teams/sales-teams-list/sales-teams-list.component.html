@@ -1,0 +1,10 @@
+<app-ng2-table class="col-lg-9"
+    [screenName]="tableConfig['screenName']"
+    [fetchUrl]="tableConfig['fetchUrl']"
+    [queryParams]="tableConfig['queryParms']"
+    [columns]="tableConfig['columns']"
+    [limit]="tableConfig['limit']"
+    (event)="doTableEvent($event.data)"
+    [addButtonInfo]="tableConfig['addButtonInfo']"
+
+></app-ng2-table>

@@ -1,0 +1,114 @@
+<!--View Design-->
+<div *ngIf="mode == 'VIEW'" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-md-7">
+			<div class="ibox float-e-margins">
+				<!--Title-->
+				<div class="ibox-title">
+					<h5>Collection Details</h5>
+					<div class="ibox-tools">
+						<div class="btn-group">
+							<button type="button" (click)="initEditScreen()" class="btn btn-white btn-sm"><i class="fa fa-pen"></i> Edit details </button>
+							<button type="button" (click)="back()" class="btn btn-white btn-sm"><i class="fa fa-pen"></i> Back </button>
+						</div>
+					</div>
+				</div>
+				<!--Content-->
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-12 padding-left-35">
+							<!--Date-->
+							<div class="form-group row">
+								<label class="col-md-3 control-label">Date</label>
+								<label class="col-md-8 control-value colon-before">{{details.date}}</label>
+							</div>
+							<!--Farm-->
+							<div class="form-group row">
+								<label class="col-md-3 control-label">Farm</label>
+								<label class="col-md-8 control-value colon-before">{{details.farm_name}}</label>
+							</div>
+							<!--Rate-->
+							<div class="form-group row">
+								<label class="col-md-3 control-label">Rate</label>
+								<label class="col-md-8 control-value colon-before">{{details.rate |  Currency:2:currencyFormat:true}}</label>
+							</div>
+							<!--Sales Team-->
+							<div class="form-group row">
+								<label class="col-md-3 control-label">Sales Team</label>
+								<label class="col-md-8 control-value colon-before">{{details.sales_team_name}}</label>
+							</div>
+							<!--Plates-->
+							<div class="form-group row">
+								<label class="col-md-3 control-label">Plates</label>
+								<label class="col-md-8 control-value colon-before">{{details.no_of_plates}}&ensp;plates.</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Edit Design-->
+<div *ngIf="mode == 'ADD' || mode == 'EDIT'" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Provide Egg Collection Details</h5>
+				</div>
+				<div class="ibox-content">
+					<form *ngIf="form" [formGroup]="form" (ngSubmit)="save()" role="form">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>Date</label>
+									<datetime id="datetimepicker1i" name="date" [timepicker]="false" [datepicker]="datepickerOptions" formControlName="date"></datetime>
+									<control-messages [control]="form.controls.date"></control-messages>
+								</div>
+								<div class="form-group">
+									<label>Farm</label>
+									<ng-select allowClear="true" [items]="formData.farms" [multiple]="false" (selected)="updateFarm('changed', $event)" (removed)="updateFarm('removed', $event)"
+										[active]="selectedFarm? [selectedFarm]: []" placeholder="Select farm">
+									</ng-select>
+									<control-messages [control]="form.controls.farm"></control-messages>
+								</div>
+								<div class="form-group">
+									<label>Rate</label>
+									<input type="text" formControlName="rate" appCurrencyFormatter [currency]="currencyFormat" placeholder="Rate of an egg plate"
+										class="form-control">
+									<control-messages [control]="form.controls.rate"></control-messages>
+								</div>
+								<div class="form-group">
+									<label>Sales Team</label>
+									<ng-select allowClear="true" [items]="formData.sales_teams" [multiple]="false" (selected)="updateSalesTeam('changed', $event)"
+										(removed)="updateSalesTeam('removed', $event)" [active]="selectedSalesTeam? [selectedSalesTeam]: []" placeholder="Select sales team">
+									</ng-select>
+									<control-messages [control]="form.controls.sales_team"></control-messages>
+								</div>
+								<div class="form-group">
+									<label>Plates</label>
+									<input type="number" formControlName="no_of_plates" placeholder="No of plates" class="form-control">
+									<control-messages [control]="form.controls.no_of_plates"></control-messages>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12 col-sm-12 text-right">
+								<span [hidden]="state != 'FailedToSave'" class="text-danger">Failed to save. Please try again ... </span>
+
+								<button type="button" [disabled]="state == 'saving'" (click)="cancel()" class="btn btn-sm btn-warning m-t-n-xs"><strong>Cancel</strong></button>
+
+								<button type="submit" [disabled]="!form.valid || state == 'saving'" class="btn btn-sm btn-primary m-t-n-xs">
+									<strong [hidden]="state == 'saving'">Save</strong>
+									<strong [hidden]="state != 'saving'">Saving <i class="fa fa-spinner fa-spin"></i></strong>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

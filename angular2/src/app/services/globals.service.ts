@@ -1,7 +1,7 @@
 import { Inject, Injectable, forwardRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { User } from '../classes';
-import { UserService, AuthService } from '../services';
+import { User } from 'app/classes';
+import { UserService, AuthService } from 'app/services';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 import { Observable } from "rxjs";
 

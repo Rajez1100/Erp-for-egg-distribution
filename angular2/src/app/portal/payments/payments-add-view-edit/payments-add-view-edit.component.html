@@ -1,0 +1,92 @@
+<!--View Design-->
+<div *ngIf="mode == 'VIEW'" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-md-7">
+			<div class="ibox float-e-margins">
+				<!--Title-->
+				<div class="ibox-title">
+					<h5>Payment Details</h5>
+					<div class="ibox-tools">
+						<div class="btn-group">
+							<button type="button" (click)="initEditScreen()" class="btn btn-white btn-sm"><i class="fa fa-pen"></i> Edit details </button>
+							<button type="button" (click)="back()" class="btn btn-white btn-sm"><i class="fa fa-pen"></i> Back </button>
+						</div>
+					</div>
+				</div>
+				<!--Content-->
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-12 padding-left-35">
+							<!--Date-->
+							<div class="form-group row">
+								<label class="col-md-3 control-label">Date</label>
+								<label class="col-md-8 control-value colon-before">{{details.date}}</label>
+							</div>
+							<!--Farm-->
+							<div class="form-group row">
+								<label class="col-md-3 control-label">Farm</label>
+								<label class="col-md-8 control-value colon-before">{{details.farm_name}}</label>
+							</div>
+							<!--Amount-->
+							<div class="form-group row">
+								<label class="col-md-3 control-label">Paid Amount</label>
+								<label class="col-md-8 control-value colon-before">{{details.amount |  Currency:2:currencyFormat:true}}</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Edit Design-->
+<div *ngIf="mode == 'ADD' || mode == 'EDIT'" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Provide Payment Details</h5>
+				</div>
+				<div class="ibox-content">
+					<form *ngIf="form" [formGroup]="form" (ngSubmit)="save()" role="form">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>Date</label>
+									<datetime id="datetimepicker1i" name="date" [timepicker]="false" [datepicker]="datepickerOptions" formControlName="date"></datetime>
+									<control-messages [control]="form.controls.date"></control-messages>
+								</div>
+								<div class="form-group">
+									<label>Farm</label>
+									<ng-select allowClear="true" [items]="formData.farms" [multiple]="false" (selected)="updateFarm('changed', $event)" (removed)="updateFarm('removed', $event)"
+										[active]="selectedFarm? [selectedFarm]: []" placeholder="Select farm">
+									</ng-select>
+									<control-messages [control]="form.controls.farm"></control-messages>
+								</div>
+								<div class="form-group">
+									<label>Amount</label>
+									<input type="text" formControlName="amount" appCurrencyFormatter [currency]="currencyFormat" placeholder="Paying amount"
+										class="form-control">
+									<control-messages [control]="form.controls.amount"></control-messages>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12 col-sm-12 text-right">
+								<span [hidden]="state != 'FailedToSave'" class="text-danger">Failed to save. Please try again ... </span>
+
+								<button type="button" [disabled]="state == 'saving'" (click)="cancel()" class="btn btn-sm btn-warning m-t-n-xs"><strong>Cancel</strong></button>
+
+								<button type="submit" [disabled]="!form.valid || state == 'saving'" class="btn btn-sm btn-primary m-t-n-xs">
+									<strong [hidden]="state == 'saving'">Save</strong>
+									<strong [hidden]="state != 'saving'">Saving <i class="fa fa-spinner fa-spin"></i></strong>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,7 +1,7 @@
 import { Directive, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 
 
-declare var $: any;
+declare var jQuery: any;
 
 @Directive({
     selector: '[inspinia-initialize]'
@@ -25,19 +25,19 @@ export class InspiniaInitiator {
         */
 
         // Add body-small class if window less than 768px
-        if ($(self.element).width() < 769) {
-            $('body').addClass('body-small')
+        if (jQuery(self.element).width() < 769) {
+            jQuery('body').addClass('body-small')
         } else {
-            $('body').removeClass('body-small')
+            jQuery('body').removeClass('body-small')
         }
 
         // MetsiMenu
-        $('#side-menu').metisMenu();
+        jQuery('#side-menu').metisMenu();
 
         // Collapse ibox function
-        $('.collapse-link').click(function () {
-            var ibox = $(self.element).closest('div.ibox');
-            var button = $(self.element).find('i');
+        jQuery('.collapse-link').click(function () {
+            var ibox = jQuery(self.element).closest('div.ibox');
+            var button = jQuery(self.element).find('i');
             var content = ibox.find('div.ibox-content');
             content.slideToggle(200);
             button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
@@ -49,63 +49,63 @@ export class InspiniaInitiator {
         });
 
         // Close ibox function
-        $('.close-link').click(function () {
-            var content = $(self.element).closest('div.ibox');
+        jQuery('.close-link').click(function () {
+            var content = jQuery(self.element).closest('div.ibox');
             content.remove();
         });
 
         // Fullscreen ibox function
-        $('.fullscreen-link').click(function () {
-            var ibox = $(self.element).closest('div.ibox');
-            var button = $(self.element).find('i');
-            $('body').toggleClass('fullscreen-ibox-mode');
+        jQuery('.fullscreen-link').click(function () {
+            var ibox = jQuery(self.element).closest('div.ibox');
+            var button = jQuery(self.element).find('i');
+            jQuery('body').toggleClass('fullscreen-ibox-mode');
             button.toggleClass('fa-expand').toggleClass('fa-compress');
             ibox.toggleClass('fullscreen');
             setTimeout(function () {
-                $(window).trigger('resize');
+                jQuery(window).trigger('resize');
             }, 100);
         });
 
         // Close menu in canvas mode
-        $('.close-canvas-menu').click(function () {
-            $("body").toggleClass("mini-navbar");
+        jQuery('.close-canvas-menu').click(function () {
+            jQuery("body").toggleClass("mini-navbar");
             self.SmoothlyMenu();
         });
 
         // Run menu of canvas
-        $('body.canvas-menu .sidebar-collapse').slimScroll({
+        jQuery('body.canvas-menu .sidebar-collapse').slimScroll({
             height: '100%',
             railOpacity: 0.9
         });
 
         // Open close right sidebar
-        $('.right-sidebar-toggle').click(function () {
-            $('#right-sidebar').toggleClass('sidebar-open');
+        jQuery('.right-sidebar-toggle').click(function () {
+            jQuery('#right-sidebar').toggleClass('sidebar-open');
         });
 
         // Initialize slimscroll for right sidebar
-        $('.sidebar-container').slimScroll({
+        jQuery('.sidebar-container').slimScroll({
             height: '100%',
             railOpacity: 0.4,
             wheelStep: 10
         });
 
         // Open close small chat
-        $('.open-small-chat').click(function () {
-            $(self.element).children().toggleClass('fa-comments').toggleClass('fa-remove');
-            $('.small-chat-box').toggleClass('active');
+        jQuery('.open-small-chat').click(function () {
+            jQuery(self.element).children().toggleClass('fa-comments').toggleClass('fa-remove');
+            jQuery('.small-chat-box').toggleClass('active');
         });
 
         // Initialize slimscroll for small chat
-        $('.small-chat-box .content').slimScroll({
+        jQuery('.small-chat-box .content').slimScroll({
             height: '234px',
             railOpacity: 0.4
         });
 
         // Small todo handler
-        $('.check-link').click(function () {
-            var button = $(self.element).find('i');
-            var label = $(self.element).next('span');
+        jQuery('.check-link').click(function () {
+            var button = jQuery(self.element).find('i');
+            var label = jQuery(self.element).next('span');
             button.toggleClass('fa-check-square').toggleClass('fa-square-o');
             label.toggleClass('todo-completed');
             return false;
@@ -113,49 +113,49 @@ export class InspiniaInitiator {
 
         // Append config box / Only for demo purpose
         // Uncomment on server mode to enable XHR calls
-        //$.get("skin-config.html", function (data) {
-        //    if (!$('body').hasClass('no-skin-config'))
-        //        $('body').append(data);
+        //jQuery.get("skin-config.html", function (data) {
+        //    if (!jQuery('body').hasClass('no-skin-config'))
+        //        jQuery('body').append(data);
         //});
 
         // Minimalize menu
-        $('.navbar-minimalize').click(function () {
-            $("body").toggleClass("mini-navbar");
+        jQuery('.navbar-minimalize').click(function () {
+            jQuery("body").toggleClass("mini-navbar");
             self.SmoothlyMenu();
 
         });
 
         // Tooltips demo
-        $('.tooltip-demo').tooltip({
-            selector: "[data-toggle=tooltip]",
-            container: "body"
-        });
+        // jQuery('.tooltip-demo').tooltip({
+        //     selector: "[data-toggle=tooltip]",
+        //     container: "body"
+        // });
 
         // Move modal to body
         // Fix Bootstrap backdrop issu with animation.css
-        $('.modal').appendTo("body");
+        jQuery('.modal').appendTo("body");
 
         // Full height of sidebar
         function fix_height() {
-            var heightWithoutNavbar = $("body > #wrapper").height() - 61;
-            $(".sidebard-panel").css("min-height", heightWithoutNavbar + "px");
+            var heightWithoutNavbar = jQuery("body > #wrapper").height() - 61;
+            jQuery(".sidebard-panel").css("min-height", heightWithoutNavbar + "px");
 
-            var navbarHeigh = $('nav.navbar-default').height();
-            var wrapperHeigh = $('#page-wrapper').height();
+            var navbarHeigh = jQuery('nav.navbar-default').height();
+            var wrapperHeigh = jQuery('#page-wrapper').height();
 
             if (navbarHeigh > wrapperHeigh) {
-                $('#page-wrapper').css("min-height", navbarHeigh + "px");
+                jQuery('#page-wrapper').css("min-height", navbarHeigh + "px");
             }
 
             if (navbarHeigh < wrapperHeigh) {
-                $('#page-wrapper').css("min-height", $(window).height() + "px");
+                jQuery('#page-wrapper').css("min-height", jQuery(window).height() + "px");
             }
 
-            if ($('body').hasClass('fixed-nav')) {
+            if (jQuery('body').hasClass('fixed-nav')) {
                 if (navbarHeigh > wrapperHeigh) {
-                    $('#page-wrapper').css("min-height", navbarHeigh - 60 + "px");
+                    jQuery('#page-wrapper').css("min-height", navbarHeigh - 60 + "px");
                 } else {
-                    $('#page-wrapper').css("min-height", $(window).height() - 60 + "px");
+                    jQuery('#page-wrapper').css("min-height", jQuery(window).height() - 60 + "px");
                 }
             }
 
@@ -164,9 +164,9 @@ export class InspiniaInitiator {
         fix_height();
 
         // Fixed Sidebar
-        $(window).bind("load", function () {
-            if ($("body").hasClass('fixed-sidebar')) {
-                $('.sidebar-collapse').slimScroll({
+        jQuery(window).bind("load", function () {
+            if (jQuery("body").hasClass('fixed-sidebar')) {
+                jQuery('.sidebar-collapse').slimScroll({
                     height: '100%',
                     railOpacity: 0.9
                 });
@@ -174,35 +174,35 @@ export class InspiniaInitiator {
         });
 
         // Move right sidebar top after scroll
-        $(window).scroll(function () {
-            if ($(window).scrollTop() > 0 && !$('body').hasClass('fixed-nav')) {
-                $('#right-sidebar').addClass('sidebar-top');
+        jQuery(window).scroll(function () {
+            if (jQuery(window).scrollTop() > 0 && !jQuery('body').hasClass('fixed-nav')) {
+                jQuery('#right-sidebar').addClass('sidebar-top');
             } else {
-                $('#right-sidebar').removeClass('sidebar-top');
+                jQuery('#right-sidebar').removeClass('sidebar-top');
             }
         });
 
-        $(window).bind("load resize scroll", function () {
-            if (!$("body").hasClass('body-small')) {
+        jQuery(window).bind("load resize scroll", function () {
+            if (!jQuery("body").hasClass('body-small')) {
                 fix_height();
             }
         });
 
-        $("[data-toggle=popover]")
-            .popover();
+        // jQuery("[data-toggle=popover]")
+        //     .popover();
 
         // Add slimscroll to element
-        $('.full-height-scroll').slimscroll({
+        jQuery('.full-height-scroll').slimscroll({
             height: '100%'
         })
 
 
         // Minimalize menu when screen is less than 768px
-        $(window).bind("resize", function () {
-            if ($(self.element).width() < 769) {
-                $('body').addClass('body-small')
+        jQuery(window).bind("resize", function () {
+            if (jQuery(self.element).width() < 769) {
+                jQuery('body').addClass('body-small')
             } else {
-                $('body').removeClass('body-small')
+                jQuery('body').removeClass('body-small')
             }
         });
 
@@ -217,11 +217,11 @@ export class InspiniaInitiator {
             var boxedlayout = localStorage.getItem("boxedlayout");
             var fixedfooter = localStorage.getItem("fixedfooter");
 
-            var body = $('body');
+            var body = jQuery('body');
 
             if (fixedsidebar == 'on') {
                 body.addClass('fixed-sidebar');
-                $('.sidebar-collapse').slimScroll({
+                jQuery('.sidebar-collapse').slimScroll({
                     height: '100%',
                     railOpacity: 0.9
                 });
@@ -241,7 +241,7 @@ export class InspiniaInitiator {
             }
 
             if (fixednavbar == 'on') {
-                $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
+                jQuery(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
                 body.addClass('fixed-nav');
             }
 
@@ -250,7 +250,7 @@ export class InspiniaInitiator {
             }
 
             if (fixedfooter == 'on') {
-                $(".footer").addClass('fixed');
+                jQuery(".footer").addClass('fixed');
             }
         }
 
@@ -264,7 +264,7 @@ export class InspiniaInitiator {
 
     // For demo purpose - animation css script
     animationHover(element, animation) {
-        element = $(element);
+        element = jQuery(element);
         element.hover(
             function () {
                 element.addClass('animated ' + animation);
@@ -278,24 +278,24 @@ export class InspiniaInitiator {
     }
 
     SmoothlyMenu() {
-        $('body').removeClass('body-small');
-        if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
+        jQuery('body').removeClass('body-small');
+        if (!jQuery('body').hasClass('mini-navbar') || jQuery('body').hasClass('body-small')) {
             // Hide menu in order to smoothly turn on when maximize menu
-            $('#side-menu').hide();
+            jQuery('#side-menu').hide();
             // For smoothly turn on menu
             setTimeout(
                 function () {
-                    $('#side-menu').fadeIn(400);
+                    jQuery('#side-menu').fadeIn(400);
                 }, 200);
-        } else if ($('body').hasClass('fixed-sidebar')) {
-            $('#side-menu').hide();
+        } else if (jQuery('body').hasClass('fixed-sidebar')) {
+            jQuery('#side-menu').hide();
             setTimeout(
                 function () {
-                    $('#side-menu').fadeIn(400);
+                    jQuery('#side-menu').fadeIn(400);
                 }, 100);
         } else {
             // Remove all inline style from jquery fadeIn function to reset menu state
-            $('#side-menu').removeAttr('style');
+            jQuery('#side-menu').removeAttr('style');
         }
     }
 
@@ -304,7 +304,7 @@ export class InspiniaInitiator {
         var element = "[class*=col]";
         var handle = ".ibox-title";
         var connect = "[class*=col]";
-        $(element).sortable(
+        jQuery(element).sortable(
             {
                 handle: handle,
                 connectWith: connect,

@@ -79,14 +79,12 @@ class DemandTransfers(models.Model):
     transfer_from = models.ForeignKey(SalesTeams, related_name='demandtransfers_out')
     transfer_to = models.ForeignKey(SalesTeams, related_name='demandtransfers_in')
     no_of_plates = models.IntegerField()
+    history = HistoricalRecords()
 
 
 class Payments(models.Model):
     date = models.DateField()
     farm = models.ForeignKey(EggFarms)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
+    history = HistoricalRecords()
 
-
-@receiver(models.signals.pre_save, sender=EggFarms)
-def delete_unnecessary_files(sender, instance, *args, **kwargs):
-    return True

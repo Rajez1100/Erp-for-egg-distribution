@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidationService } from 'app/directives';
 import { AuthService } from 'app/services';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     selector: 'app-password-reset-confirm',
@@ -11,7 +13,7 @@ import { AuthService } from 'app/services';
     ]
 })
 export class PasswordResetConfirmComponent implements OnInit {
-    subscriptions: any = {};
+    ngUnSubscribe: Subject<void> = new Subject<void>();
     token: string;
     passwordResetForm: FormGroup;
     process: string;
@@ -34,7 +36,7 @@ export class PasswordResetConfirmComponent implements OnInit {
 
     ngOnInit() {
         // Route query params subscription
-        this.route.queryParams.subscribe(params => {
+        this.route.queryParams.takeUntil(this.ngUnSubscribe).subscribe(params => {
             if (Object.keys(params).indexOf('tk') < 0) this.router.navigate(['error/not-found']);
             else {
                 this.verifToken(params['tk']);
@@ -89,8 +91,7 @@ export class PasswordResetConfirmComponent implements OnInit {
 
     // Unsubscribe subscriptions on component destroy
     ngOnDestroy() {
-        for (let subscriptionName in this.subscriptions) {
-            this.subscriptions[subscriptionName].unsubscribe();
-        }
+        this.ngUnSubscribe.next();
+        this.ngUnSubscribe.complete();
     }
 }

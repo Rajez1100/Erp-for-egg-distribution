@@ -7,9 +7,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { GetApiurl } from '../parameters';
+import { GetApiurl } from 'app/functions';
 
-import { User, UserType } from '../classes/user';
+import { User, UserType } from 'app/classes';
 
 @Injectable()
 export class UserService {

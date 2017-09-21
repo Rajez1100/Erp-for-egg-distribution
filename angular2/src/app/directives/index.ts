@@ -16,3 +16,4 @@ export { InlineInputDirective } from './input-directives/inline-input/inline-inp
 export { NumberFormatterDirective } from './number-formatter/number-formatter.directive';
 export { DataAffixDirective } from './data-affix.directive';
 export { FileValueAccessorDirective } from './input-directives/file-input-validator/file-input-validator.directive';
+export { ng2TableConfig, Ng2TableComponent } from './ng2-table/ng2-table.component';

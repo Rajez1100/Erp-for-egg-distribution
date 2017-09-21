@@ -22,7 +22,7 @@ import {
     Request
 } from '@angular/http';
 
-import { GetApiurl } from 'app/parameters';
+import { GetApiurl } from 'app/functions';
 import 'rxjs/add/operator/map';
 
 

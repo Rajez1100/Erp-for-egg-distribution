@@ -5,9 +5,9 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { GetApiurl } from '../../parameters';
-import { User } from '../../classes';
-import { GlobalsService } from '../../services';
+import { GetApiurl } from 'app/functions';
+import { User } from 'app/classes';
+import { GlobalsService } from 'app/services';
 import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()

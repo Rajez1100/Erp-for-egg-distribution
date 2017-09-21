@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalsService, AuthService } from 'app/services';
 import { User } from 'app/classes';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css']
+  templateUrl: './nav-bar.component.html'
 })
 export class NavBarComponent implements OnInit {
-  subscriptions: Object = {};
+  ngUnSubscribe: Subject<void> = new Subject<void>();
   user: User = new User();
 
   constructor(
@@ -17,7 +18,7 @@ export class NavBarComponent implements OnInit {
   ) {
 
     // User details subscription
-    this.subscriptions['userDetailsSubscription'] = this.gs.user$.subscribe(user => {
+    this.gs.user$.takeUntil(this.ngUnSubscribe).subscribe(user => {
       if (user) this.user = user;
       else this.user = new User();
     })
@@ -31,7 +32,8 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    Object.keys(this.subscriptions).forEach(subacriptionName => this.subscriptions[subacriptionName].unsubscribe());
+    this.ngUnSubscribe.next();
+    this.ngUnSubscribe.complete();
   }
 
 }

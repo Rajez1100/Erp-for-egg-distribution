@@ -1,0 +1,107 @@
+<!--View Design-->
+<div *ngIf="mode == 'VIEW'" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox product-detail ibox-title-border">
+				<div class="ibox-content">
+					<div class="row">
+						<!--Col 1-->
+						<div class="col-md-5">
+							<div class="img-container">
+								<div [hidden]="details.logo && details.logo != ''" class="image-imitation">[FARM LOGO]</div>
+								<img [hidden]="!details.logo || details.logo == ''" [src]="details.logo" alt="Farm logo" class="img-responsive" />
+							</div>
+						</div>
+						<!--Col 2-->
+						<div class="col-md-7">
+							<!--Name-->
+							<div class="row">
+								<h2 class="col-lg-8 font-bold m-b-xs"> {{details.name}}</h2>
+								<div class="col-lg-4 text-right padding-right-">
+									<div class="btn-group">
+										<button type="button" (click)="initEditScreen()" class="btn btn-white btn-sm"><i class="fa fa-pen"></i> Edit details </button>
+										<button type="button" (click)="back()" class="btn btn-white btn-sm"><i class="fa fa-pen"></i> Back </button>
+									</div>
+								</div>
+							</div>
+							<hr>
+
+							<!--Description-->
+							<h4>Description</h4>
+							<ul class="unstyled">
+								<li [innerText]="details.description"></li>
+							</ul>
+							<!--Address-->
+							<h4>Address</h4>
+							<ul class="unstyled">
+								<li [innerText]="details.address"></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Edit Design-->
+<div *ngIf="mode == 'ADD' || mode == 'EDIT'" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Provide Farm Details</h5>
+				</div>
+				<div class="ibox-content">
+					<form *ngIf="form" [formGroup]="form" (ngSubmit)="save()" role="form">
+						<div class="row">
+							<div class="col-sm-6 b-r">
+								<div class="form-group">
+									<label>Name</label>
+									<input type="text" formControlName="name" placeholder="Provide farm name" class="form-control">
+									<control-messages [control]="form.controls.name"></control-messages>
+								</div>
+								<div class="form-group">
+									<label>Description</label>
+									<textarea formControlName="description" placeholder="Provide description" class="form-control"></textarea>
+									<control-messages [control]="form.controls.description"></control-messages>
+								</div>
+								<div class="form-group">
+									<label>Address</label>
+									<textarea formControlName="address" placeholder="Provide farm address" rows="5" class="form-control"></textarea>
+									<control-messages [control]="form.controls.address"></control-messages>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<h4>Farm Logo</h4>
+
+								<div>
+									<div class="text-center img-container">
+										<div [hidden]="logoUrl && logoUrl != ''" class="image-imitation">[FARM LOGO]</div>
+										<img *ngIf="logoUrl && logoUrl != ''" [src]="logoUrl" alt="Farm Logo" class="img-responsive" />
+									</div>
+									<input type="file" formControlName="logo" appValidateFileInput maxSize="1024" [validTypes]="['.png', '.jpg', '.gif']" [fileRequired]="false"
+										(fileUrls)="logoUrl = $event[0]" />
+									<control-messages [control]="form.controls.logo"></control-messages>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12 col-sm-12 text-right">
+								<span [hidden]="state != 'FailedToSave'" class="text-danger">Failed to save. Please try again ... </span>
+
+								<button type="button" [disabled]="state == 'saving'" (click)="cancel()" class="btn btn-sm btn-warning m-t-n-xs"><strong>Cancel</strong></button>
+
+								<button type="submit" [disabled]="!form.valid || state == 'saving'" class="btn btn-sm btn-primary m-t-n-xs">
+                                    <strong [hidden]="state == 'saving'">Save</strong>
+                                    <strong [hidden]="state != 'saving'">Saving <i class="fa fa-spinner fa-spin"></i></strong>
+                                </button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

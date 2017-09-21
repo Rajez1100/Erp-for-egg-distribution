@@ -27,15 +27,25 @@
         "assets/templates/kpi_dashboard/css/animate.css",
         "assets/templates/kpi_dashboard/css/style.css",
         "assets/templates/kpi_dashboard/css/plugins/toastr/toastr.min.css",
-        "assets/templates/kpi_dashboard/js/plugins/gritter/jquery.gritter.css"
+        "assets/templates/kpi_dashboard/js/plugins/gritter/jquery.gritter.css",
+        "../node_modules/ng2-datetime/src/vendor/bootstrap-datepicker/bootstrap-datepicker3.min.css",
+        "../node_modules/ng2-datetime/src/vendor/bootstrap-timepicker/bootstrap-timepicker.min.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/jquery-ui/ui/core.js",
+        "../node_modules/jquery-ui/ui/widget.js",
+        "../node_modules/jquery-ui/ui/mouse.js",
+        "../node_modules/jquery-ui/ui/sortable.js",
         "../node_modules/tether/dist/js/tether.min.js",
+        "../node_modules/popper.js/dist/umd/popper.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "assets/templates/kpi_dashboard/js/plugins/metisMenu/jquery.metisMenu.js",
         "assets/templates/kpi_dashboard/js/plugins/slimscroll/jquery.slimscroll.min.js",
         "assets/templates/kpi_dashboard/js/plugins/pace/pace.min.js",
+        "../node_modules/ng2-datetime/src/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js",
+        "../node_modules/ng2-datetime/src/vendor/bootstrap-timepicker/bootstrap-timepicker.min.js",
+        "assets/templates/kpi_dashboard/js/plugins/fullcalendar/moment.min.js",
         "assets/templates/kpi_dashboard/js/plugins/flot/jquery.flot.js",
         "assets/templates/kpi_dashboard/js/plugins/flot/jquery.flot.tooltip.min.js",
         "assets/templates/kpi_dashboard/js/plugins/flot/jquery.flot.spline.js",
@@ -78,7 +88,8 @@
     "styleExt": "css",
     "component": {},
     "serve": {
-      "port": 4201
+      "port": 4201,
+      "host": "0.0.0.0"
     }
   }
 }

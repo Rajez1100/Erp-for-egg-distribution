@@ -2,17 +2,19 @@ import { Directive, TemplateRef, ViewContainerRef, Input, OnInit, OnDestroy } fr
 import { GlobalsService } from 'app/services';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from 'app/classes';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 @Directive({
     selector: '[access]'
 })
 export class AccessDirective {
+    ngUnSubscribe: Subject<void> = new Subject<void>();
     user_permissions: Array<string> = [];
     userDetails: User = new User();
     allowedRoles: Array<string> = [];
     permitted: boolean = false;
     isUserTypeValid: boolean = true;
-    subscriptions: Object = {};
 
     constructor(
         private template_ref: TemplateRef<any>,
@@ -21,12 +23,12 @@ export class AccessDirective {
     ) {
         // Subscribe globals property
         // User permissions subscription
-        this.subscriptions['userPermissionsSubscription'] = this.globals.userPermissions$.subscribe(permissions => {
+        this.globals.userPermissions$.takeUntil(this.ngUnSubscribe).subscribe(permissions => {
             if (permissions instanceof Array) this.user_permissions = permissions;
         });
 
         // User details subscription
-        this.subscriptions['userDetailsSubscription'] = this.globals.user$.subscribe(details => {
+        this.globals.user$.takeUntil(this.ngUnSubscribe).subscribe(details => {
             if (details) this.userDetails = details;
         });
     }
@@ -81,8 +83,7 @@ export class AccessDirective {
 
     // unsubscribing subacriptions 
     ngOnDestroy() {
-        Object.keys(this.subscriptions).forEach(subscriptionName => {
-            this.subscriptions[subscriptionName].unsubscribe();
-        })
+        this.ngUnSubscribe.next();
+        this.ngUnSubscribe.complete();
     }
 }

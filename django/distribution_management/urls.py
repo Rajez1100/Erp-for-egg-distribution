@@ -4,6 +4,7 @@ from distribution_management.views import \
     EggFarmsViewSet, SalesTeamsViewSet, EggCollectionsViewSet, DemandTransfersViewSet
 from distribution_management.views2 import \
     SalesSummaryViewSet, PaymentsViewSet
+from distribution_management.views3 import ReportsViewSet
 
 # Defining Router
 distribution_management_router = routers.DefaultRouter()
@@ -16,3 +17,4 @@ distribution_management_router.register(r'demand-transfers', DemandTransfersView
 distribution_management_router.register(r'sales-teams', SalesTeamsViewSet, 'salesteams')
 distribution_management_router.register(r'sales-summary', SalesSummaryViewSet, 'salessummary')
 distribution_management_router.register(r'payments', PaymentsViewSet, 'payments')
+distribution_management_router.register(r'reports', ReportsViewSet, 'reports')

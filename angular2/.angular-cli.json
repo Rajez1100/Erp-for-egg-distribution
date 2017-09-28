@@ -20,16 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "assets/css/material-dashboard.css?v=1.2.0",
-        "assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css",
-        "assets/fonts/material-icons/material-icons.css",
-        "assets/templates/kpi_dashboard/css/bootstrap.min.css",
-        "assets/templates/kpi_dashboard/css/animate.css",
-        "assets/templates/kpi_dashboard/css/style.css",
-        "assets/templates/kpi_dashboard/css/plugins/toastr/toastr.min.css",
-        "assets/templates/kpi_dashboard/js/plugins/gritter/jquery.gritter.css",
-        "../node_modules/ng2-datetime/src/vendor/bootstrap-datepicker/bootstrap-datepicker3.min.css",
-        "../node_modules/ng2-datetime/src/vendor/bootstrap-timepicker/bootstrap-timepicker.min.css"
+        "application.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
@@ -51,7 +42,9 @@
         "assets/templates/kpi_dashboard/js/plugins/flot/jquery.flot.spline.js",
         "assets/templates/kpi_dashboard/js/plugins/flot/jquery.flot.resize.js",
         "assets/templates/kpi_dashboard/js/plugins/flot/jquery.flot.pie.js",
-        "assets/templates/kpi_dashboard/js/plugins/peity/jquery.peity.min.js"
+        "assets/templates/kpi_dashboard/js/plugins/peity/jquery.peity.min.js",
+        "assets/templates/kpi_dashboard/js/plugins/d3/d3.min.js",
+        "assets/templates/kpi_dashboard/js/plugins/c3/c3.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

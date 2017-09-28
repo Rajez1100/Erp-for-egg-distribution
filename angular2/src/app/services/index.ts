@@ -11,4 +11,5 @@ export { EggCollectionsService } from './egg-collections.service';
 export { DemandTransfersService } from './demand-transfers.service';
 export { SalesSummaryService } from './sales-summary.service';
 export { PaymentsService } from './payments.service';
+export { ReportsService } from './reports.service';
 export {} from './';

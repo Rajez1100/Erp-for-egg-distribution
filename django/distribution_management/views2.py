@@ -11,7 +11,6 @@ from distribution_management.serializers import \
     SalesSummarySerializer, PaymentsSerializer
 from django.db.models import F
 
-
 # Create your views here.
 
 

@@ -1,11 +1,11 @@
 // Module
-export { DirectivesModule } from './directives.module'; 
+export { DirectivesModule } from './directives.module';
 
 // Directives
 export { RedGridDirective } from './red-grid.directive';
 export { TileDirective } from './tile.directive';
 export { AccessDirective } from './access.directive';
-export { TooltipDirective } from'./tooltip.directive';
+export { TooltipDirective } from './tooltip.directive';
 export { ValidationService } from './form-validations/validation.service';
 export { ControlMessagesComponent, getControlName } from './form-validations/control-messages.component';
 export { LocalitySelectDirective } from './input-directives/locality-select/locality-select.directive';
@@ -17,3 +17,5 @@ export { NumberFormatterDirective } from './number-formatter/number-formatter.di
 export { DataAffixDirective } from './data-affix.directive';
 export { FileValueAccessorDirective } from './input-directives/file-input-validator/file-input-validator.directive';
 export { ng2TableConfig, Ng2TableComponent } from './ng2-table/ng2-table.component';
+export { WeekPickerDirective } from './weekpicker.directive';
+export { ToggleFullscreenDirective } from './toggle-fullscreen.directive';

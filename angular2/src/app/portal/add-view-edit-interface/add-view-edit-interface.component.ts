@@ -28,7 +28,8 @@ export class AddViewEditInterfaceComponent implements OnInit {
   protected datepickerOptions: Object = {
     autoclose: true,
     todayHighlight: true,
-    format: 'dd-mm-yyyy'
+    format: 'dd-mm-yyyy',
+    icon: 'fa fa-calendar'
   };
   path: string;
 

@@ -16,6 +16,8 @@ import { PipesModule, CurrencyPipe } from 'app/pipes';
 import { NumberFormatterDirective } from './number-formatter/number-formatter.directive';
 import { DataAffixDirective } from './data-affix.directive';
 import { FileValueAccessorDirective } from './input-directives/file-input-validator/file-input-validator.directive';
+import { WeekPickerDirective } from './weekpicker.directive';
+import { ToggleFullscreenDirective } from './toggle-fullscreen.directive';
 
 @NgModule({
     imports: [
@@ -37,7 +39,9 @@ import { FileValueAccessorDirective } from './input-directives/file-input-valida
         InlineInputDirective,
         NumberFormatterDirective,
         DataAffixDirective,
-        FileValueAccessorDirective
+        FileValueAccessorDirective,
+        WeekPickerDirective,
+        ToggleFullscreenDirective
     ],
     exports: [
         TileDirective,
@@ -52,7 +56,9 @@ import { FileValueAccessorDirective } from './input-directives/file-input-valida
         InlineInputDirective,
         NumberFormatterDirective,
         DataAffixDirective,
-        FileValueAccessorDirective
+        FileValueAccessorDirective,
+        WeekPickerDirective,
+        ToggleFullscreenDirective
     ],
     providers: [
         ValidationService,

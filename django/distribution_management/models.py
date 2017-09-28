@@ -53,38 +53,59 @@ class SalesTeams(models.Model):
 
 class EggCollections(models.Model):
     date = models.DateField()
-    farm = models.ForeignKey(EggFarms)
-    rate = models.DecimalField(max_digits=10, decimal_places=2)
-    sales_team = models.ForeignKey(SalesTeams)
-    no_of_plates = models.IntegerField()
+    farm = models.ForeignKey(EggFarms, related_name='eggcollections')
+    rate = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    sales_team = models.ForeignKey(SalesTeams, related_name='eggcollections')
+    no_of_plates = models.IntegerField(default=0)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     history = HistoricalRecords()
 
 
 class SalesSummary(models.Model):
     date = models.DateField()
-    sales_team = models.ForeignKey(SalesTeams)
-    damaged_plates = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    cash_handovered = models.DecimalField(max_digits=20, decimal_places=2, null=True)
+    sales_team = models.ForeignKey(SalesTeams, related_name='salessummary')
+    sold_plates = models.IntegerField(default=0)
+    damaged_plates = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    damaged_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    cash_handovered = models.DecimalField(max_digits=20, decimal_places=2, default=0)
+    outstanding = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     history = HistoricalRecords()
 
 
 class SalesSummaryItems(models.Model):
     summary = models.ForeignKey(SalesSummary, related_name='rates')
-    rate = models.DecimalField(max_digits=10, decimal_places=2)
-    no_of_plates = models.IntegerField()
+    rate = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    no_of_plates = models.IntegerField(default=0)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
 
 class DemandTransfers(models.Model):
     date = models.DateField()
     transfer_from = models.ForeignKey(SalesTeams, related_name='demandtransfers_out')
     transfer_to = models.ForeignKey(SalesTeams, related_name='demandtransfers_in')
-    no_of_plates = models.IntegerField()
+    rate = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    no_of_plates = models.IntegerField(default=0)
     history = HistoricalRecords()
 
 
 class Payments(models.Model):
     date = models.DateField()
-    farm = models.ForeignKey(EggFarms)
-    amount = models.DecimalField(max_digits=20, decimal_places=2)
+    farm = models.ForeignKey(EggFarms, related_name='payments')
+    amount = models.DecimalField(max_digits=20, decimal_places=2, default=0)
+    history = HistoricalRecords()
+
+
+class DailyStocks(models.Model):
+    date = models.DateField()
+    sales_team = models.ForeignKey(SalesTeams, related_name='dailystocks')
+    no_of_plates = models.IntegerField(default=0)
+    rate = models.DecimalField(max_digits=20, decimal_places=2, default=0)
+    cost = models.DecimalField(max_digits=20, decimal_places=2, default=0)
+    created_st = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     history = HistoricalRecords()
 

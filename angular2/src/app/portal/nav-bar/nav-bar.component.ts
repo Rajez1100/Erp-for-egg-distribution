@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { GlobalsService, AuthService } from 'app/services';
 import { User } from 'app/classes';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
+
+declare var jQuery: any;
 
 @Component({
   selector: 'app-nav-bar',
@@ -34,6 +36,14 @@ export class NavBarComponent implements OnInit {
   ngOnDestroy() {
     this.ngUnSubscribe.next();
     this.ngUnSubscribe.complete();
+  }
+
+  ngAfterViewInit() {
+    console.log(document.getElementById('fullscreen-toggler'))
+    setTimeout(() => {
+    document.getElementById('fullscreen-toggler').click();
+    }, 1000)
+
   }
 
 }

@@ -36,7 +36,7 @@ export interface ng2TableConfig {
     }>;
     rows?: Array<any>;
     limit: number;
-    addButtonInfo?: { text: string; url: string; }; 
+    addButtonInfo?: { text: string; url: string; };
 };
 
 @Component({
@@ -48,7 +48,7 @@ export interface ng2TableConfig {
 export class Ng2TableComponent implements OnInit {
     @Input() screenName: string;
     @Input() fetchUrl: string;
-    @Input() queryParams: Object = {};
+    queryParams: Object = {};
     @Input() addButtonInfo: any;
     @Input() commonFilter: any;
     @Input() limit: number;
@@ -140,6 +140,14 @@ export class Ng2TableComponent implements OnInit {
         });
     }
 
+    @Input('queryParams')
+    set _queryParams(params: any) {
+        if (params) this.queryParams = params;
+        else this.queryParams = {};
+
+        this.fetchRecords(0, this.limit);
+    }
+
     currentRequest: any = false;
     fetchRecords(offset: number, end: number): void {
         if (this.fetchUrl == '') {
@@ -163,6 +171,11 @@ export class Ng2TableComponent implements OnInit {
 
     constructURL(offset: number, end: number): string {
         let url = this.fetchUrl + '?offset=' + offset + '&end=' + end;
+
+        Object.keys(this.queryParams).forEach(property => {
+            url += `&${encodeURIComponent(property)}=${encodeURIComponent(this.queryParams[property])}`;
+        });
+
         if (this.columnFilter.length) {
             this.columnFilter.forEach((column: any) => {
                 url += '&' + encodeURIComponent(column.name) + '=' + encodeURIComponent(column.value);
@@ -246,7 +259,8 @@ export class Ng2TableComponent implements OnInit {
         this.fetchRecords(start, end);
     }
 
-    public changeSort(data: any, config: any): any {debugger
+    public changeSort(data: any, config: any): any {
+        
         if (!config.sorting) {
             return data;
         }
@@ -256,7 +270,7 @@ export class Ng2TableComponent implements OnInit {
         let sort: string = void 0;
 
         for (let i = 0; i < columns.length; i++) {
-            if (['', false, undefined].indexOf(columns[i].sort) < 0) {
+            if (['', false, undefined, true].indexOf(columns[i].sort) < 0) {
                 columnName = columns[i].name;
                 sort = columns[i].sort;
             }

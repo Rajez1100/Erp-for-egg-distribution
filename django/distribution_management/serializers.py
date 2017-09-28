@@ -1,8 +1,12 @@
 from rest_framework import serializers
 from distribution_management.models import \
     EggFarms, SalesTeams, EggCollections, \
-    DemandTransfers, SalesSummary, SalesSummaryItems, Payments
-from django.db.models import Sum, F
+    DemandTransfers, SalesSummary, SalesSummaryItems, Payments, \
+    DailyStocks
+from django.db.models import Sum, F, Avg
+from django.db.models.functions import Coalesce
+from distribution_management.auto_generations import update_daily_stock
+import datetime
 
 
 class EggFarmsSerializer(serializers.ModelSerializer):
@@ -42,7 +46,31 @@ class EggCollectionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = EggCollections
         fields = ('id', 'date', 'farm', 'farm_name', 'rate', 'sales_team', 'sales_team_name', 'no_of_plates',
-                  'created_at', 'created_by', 'modified_at', 'modified_by')
+                  'created_at', 'created_by', 'modified_at', 'modified_by', 'cost')
+        read_only_fields = ('cost',)
+
+    def create(self, validated_data):
+        instance = super(EggCollectionsSerializer, self).create(validated_data=validated_data)
+
+        instance.cost = instance.rate * instance.no_of_plates
+        instance.save()
+
+        # Stock calculation
+        update_daily_stock(sales_team=instance.sales_team, date=instance.date)
+
+        return instance
+
+    def update(self, instance, validated_data):
+        instance = super(EggCollectionsSerializer, self).update(instance=instance,
+                                                                validated_data=validated_data)
+
+        instance.cost = instance.rate * instance.no_of_plates
+        instance.save()
+
+        # Stock calculation
+        update_daily_stock(sales_team=instance.sales_team, date=instance.date)
+
+        return instance
 
 
 class DemandTransfersSerializer(serializers.ModelSerializer):
@@ -60,6 +88,40 @@ class DemandTransfersSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'date', 'transfer_from', 'transfer_from_name', 'transfer_to', 'transfer_to_name', 'no_of_plates',
             'created_at', 'created_by', 'modified_at', 'modified_by')
+
+    def create(self, validated_data):
+        instance = super(DemandTransfersSerializer, self).create(validated_data=validated_data)
+
+        self.update_transfer_rate(instance)
+
+        # Stock calculation
+        update_daily_stock(sales_team=instance.transfer_from, date=instance.date,  mode='TRANSFER_IN', avg_rate=instance.rate)
+        update_daily_stock(sales_team=instance.transfer_to, date=instance.date,  mode='TRANSFER_IN', avg_rate=instance.rate)
+
+        return instance
+
+    def update(self, instance, validated_data):
+        instance = super(DemandTransfersSerializer, self).update(instance, validated_data)
+
+        self.update_transfer_rate(instance)
+
+        # Stock calculation
+        update_daily_stock(sales_team=instance.transfer_from, date=instance.date, mode='TRANSFER_IN', avg_rate=instance.rate)
+        update_daily_stock(sales_team=instance.transfer_to, date=instance.date,  mode='TRANSFER_IN', avg_rate=instance.rate)
+
+        return instance
+
+    def update_transfer_rate(self, instance):
+        purchase_date_of_transfer = instance.transfer_from.eggcollections.filter(date__lte=instance.date).order_by(
+            '-date').first()
+
+        avg_rate = instance.transfer_from.eggcollections.filter(date=purchase_date_of_transfer.date) \
+            .aggregate(rate__avg=Avg('rate'))['rate__avg'] if purchase_date_of_transfer else None
+
+        instance.rate = avg_rate if avg_rate else instance.rate
+        instance.save()
+
+        return instance
 
 
 class SalesSummaryItemsSerializer(serializers.ModelSerializer):
@@ -84,9 +146,10 @@ class SalesSummarySerializer(serializers.ModelSerializer):
     sales_team_name = serializers.CharField(source='sales_team.name', read_only=True)
     rates = SalesSummaryItemsSerializer(many=True)
     date = serializers.DateField(format='%d-%m-%Y', input_formats=['iso-8601', '%d-%m-%Y'])
-    total_plates = serializers.SerializerMethodField()
-    total_cost = serializers.SerializerMethodField()
-    total_outstanding = serializers.SerializerMethodField()
+    total_plates = serializers.IntegerField(source='sold_plates', read_only=True)
+    total_cost = serializers.DecimalField(source='cost', max_digits=10, decimal_places=2, read_only=True)
+    total_outstanding = serializers.DecimalField(source='outstanding', max_digits=10,
+                                                 decimal_places=2, read_only=True)
 
     class Meta:
         model = SalesSummary
@@ -101,14 +164,16 @@ class SalesSummarySerializer(serializers.ModelSerializer):
         if rates:
             rates = self.create_or_update_rates(instance=instance, rates=rates)
 
-        return instance
+        return self.update_calculated_fields(instance=instance)
 
     def update(self, instance, validated_data):
         rates = validated_data.pop('rates', None)
         if rates:
             rates = self.create_or_update_rates(instance=instance, rates=rates)
 
-        return super(SalesSummarySerializer, self).update(instance=instance, validated_data=validated_data)
+        instance = super(SalesSummarySerializer, self).update(instance=instance, validated_data=validated_data)
+
+        return self.update_calculated_fields(instance=instance)
 
     def create_or_update_rates(self, instance, rates=list()):
         for rate in rates:
@@ -121,6 +186,8 @@ class SalesSummarySerializer(serializers.ModelSerializer):
         model_class = rates_serializer._kwargs['child'].Meta.model
         record_ids = list()
         for record in rates_serializer.validated_data:
+            record['cost'] = record['rate'] * record['no_of_plates']
+
             if 'id' in record:
                 rate = model_class.objects.get(pk=record.pop('id'))
                 rate.__dict__.update(summary=instance, **record)
@@ -140,23 +207,31 @@ class SalesSummarySerializer(serializers.ModelSerializer):
 
         return serializer.data
 
-    def get_total_plates(self, instance):
+    def update_calculated_fields(self, instance):
 
-        return instance.rates \
-            .aggregate(Sum('no_of_plates')).get('no_of_plates__sum', 0)
+        agg = instance.rates.aggregate(Sum('cost'), Sum('no_of_plates'))
+        instance.sold_plates = agg['no_of_plates__sum']
+        instance.cost = agg['cost__sum']
+        instance.outstanding = instance.cost - instance.cash_handovered
 
-    def get_total_cost(self, instance):
-        """ Total cost aggregation """
-        return instance.rates \
-            .annotate(cost=F('rate') * F('no_of_plates')) \
-            .aggregate(Sum('cost')).get('cost__sum', 0)
+        # Damage cost calculation
+        rates = list()
+        rates += list(instance.sales_team.eggcollections.filter(date=instance.date).values_list('rate', flat=True))
+        rates += list(instance.sales_team.demandtransfers_in.filter(date=instance.date).values_list('rate', flat=True))
 
-    def get_total_outstanding(self, instance):
-        total_cost = instance.rates \
-            .annotate(cost=F('rate') * F('no_of_plates')) \
-            .aggregate(Sum('cost')).get('cost__sum', 0)
+        stock = instance.sales_team.dailystocks.filter(date__lt=instance.date).order_by('-date').first()
 
-        return float(total_cost) - float(instance.cash_handovered)
+        if stock and stock.no_of_plates > 0:
+            rates.append(stock.rate)
+
+        instance.damaged_cost = float(instance.damaged_plates) * float(sum(rates)) / max(len(rates), 1)
+
+        instance.save()
+
+        # Stock calculation
+        update_daily_stock(sales_team=instance.sales_team, date=instance.date)
+
+        return instance
 
 
 class PaymentsSerializer(serializers.ModelSerializer):
@@ -172,3 +247,22 @@ class PaymentsSerializer(serializers.ModelSerializer):
         model = Payments
         fields = ('id', 'date', 'farm', 'farm_name', 'amount',
                   'created_at', 'created_by', 'modified_at', 'modified_by')
+
+
+class CollectionsAndPaymentsSerializer(serializers.ModelSerializer):
+
+    def to_representation(self, instance):
+        primitive_repr = super(CollectionsAndPaymentsSerializer, self).to_representation(instance)
+
+        primitive_repr['date'] = instance.date
+        primitive_repr['farm_id'] = instance.farm_id
+        primitive_repr['farm_name'] = instance.farm.name
+        primitive_repr['plates_collection'] = instance.plates_collection
+        primitive_repr['cost_collection'] = instance.cost_collection
+        primitive_repr['cost_payment'] = instance.cost_payment
+
+        return primitive_repr
+
+    class Meta:
+        model = EggCollections
+        fields = ('farm_id',)

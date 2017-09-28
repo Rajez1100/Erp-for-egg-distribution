@@ -11,7 +11,7 @@ import { GetApiurl } from 'app/functions';
 export class EggCollectionsListComponent implements OnInit {
 
   tableConfig: ng2TableConfig = {
-    screenName: 'Egg Collections',
+    screenName: 'Egg Purchases',
     fetchUrl: GetApiurl('egg-collections/'),
     queryParams: {},
     columns: [
@@ -24,7 +24,7 @@ export class EggCollectionsListComponent implements OnInit {
     ],
     rows: [],
     limit: 10,
-    addButtonInfo: { text: 'Add Egg Collection', url: '/app/egg-collections/add' }
+    addButtonInfo: { text: 'Add Purchase', url: '/app/egg-collections/add' }
   }
 
   constructor(

@@ -1,0 +1,120 @@
+<div class="wrapper wrapper-content animated fadeInRight padding-bottom-0">
+	<div class="ibox-content m-b-sm border-bottom">
+		<div class="row">
+			<!--Start date-->
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label class="control-label" for="start_date_input">Start Date</label>
+
+					<div class="input-group">
+						<datetime [(ngModel)]="startDate" id="datetimepicker1" name="date" [timepicker]="false" [datepicker]="datepickerOptions"></datetime>
+					</div>
+				</div>
+			</div>
+			<!--End date-->
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label class="control-label" for="end_date_input">End Date</label>
+
+					<div class="input-group">
+						<datetime [(ngModel)]="endDate" id="datetimepicker2" name="date" [timepicker]="false" [datepicker]="datepickerOptions"></datetime>
+					</div>
+				</div>
+			</div>
+			<!--Farm-->
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label" for="farm_input">Farm</label>
+					<ng-select allowClear="true" id="farm_input" [items]="farms" [multiple]="false" (selected)="farmChanged('changed', $event)"
+						(removed)="farmChanged('removed', $event)" placeholder="Select farm">
+					</ng-select>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label class="control-label" for="generate-btn" style="width: 100%;">&ensp;</label>
+					<button (click)="getReport()" id="generate-btn" type="button" class="btn btn-info btn-sm">
+						<span [hidden]="state == 'fetchingReport'">Generate Report</span>
+						<span [hidden]="state != 'fetchingReport'">Generating Report <i class="fa fa-spinner fa-spin"></i></span>
+					</button>&ensp;
+					<span [hidden]="state != 'failedToFetchReport'" class="text-danger">Failed to generate. Try again ...</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--Summary-->
+<div class="wrapper wrapper-content animated fadeInUp padding-bottom-0">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="ibox">
+				<div class="ibox-content">
+					<h2>Summary</h2>
+
+					<div class="clients-list padded extra-pad-for-lg">
+						<table class="table table-striped table-hover">
+							<tbody>
+								<!--Purchased plates-->
+								<tr>
+									<td class="client-avatar"></td>
+									<td>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="row">
+													<span class="col-xs-7 display-label">Purchased Eggs</span>
+													<span class="col-xs-5 colon-before">{{reportData['summary']['plates_collection__sum'] | Currency:0:currencyFormat:false}} plates.</span>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="row">
+													<span class="col-xs-7 display-label">Purchase Cost</span>
+													<span class="col-xs-5 colon-before">{{reportData['summary']['cost_collection__sum'] | Currency:2:currencyFormat:true}}</span>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+
+								<!--Payment/ Balance-->
+								<tr>
+									<td class="client-avatar"></td>
+									<td>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="row">
+													<span class="col-xs-7 display-label">Paid Amount</span>
+													<span class="col-xs-5 colon-before">{{reportData['summary']['cost_payment__sum'] | Currency:0:currencyFormat:true}}</span>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="row">
+													<span class="col-xs-7 display-label">Remaining Amount</span>
+													<span class="col-xs-5 colon-before"><span [ngClass]="{'label-danger': reportData['summary']['cost_balance__sum'] > 0, 'label-primary': reportData['summary']['cost_balance__sum'] <= 0}" class="label font-13">{{reportData['summary']['cost_balance__sum'] | Currency:2:currencyFormat:true}}</span>
+                          </span>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--List view-->
+<app-ng2-table
+	[screenName]="tableConfig['screenName']"
+	[fetchUrl]="tableConfig['fetchUrl']"
+	[queryParams]="tableConfig['queryParams']"
+	[columns]="tableConfig['columns']"
+	[limit]="tableConfig['limit']"
+	(event)="doTableEvent($event.data)"
+	[addButtonInfo]="tableConfig['addButtonInfo']"
+
+></app-ng2-table>

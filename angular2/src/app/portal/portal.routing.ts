@@ -35,6 +35,10 @@ export const PORTAL_ROUTES: Routes = [
             {
                 path: 'sales-summary',
                 loadChildren: './sales-summary/sales-summary.module#SalesSummaryModule'
+            },
+            {
+                path: 'reports',
+                loadChildren: './reports/reports.module#ReportsModule'
             }
         ]
     }

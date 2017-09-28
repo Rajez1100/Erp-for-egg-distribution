@@ -1,0 +1,11 @@
+/*@import "assets/css/material-dashboard.css?v=1.2.0";*/
+@import "assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
+@import "assets/fonts/material-icons/material-icons.css";
+@import "assets/templates/kpi_dashboard/css/bootstrap.min.css";
+@import "assets/templates/kpi_dashboard/css/animate.css";
+@import "assets/templates/kpi_dashboard/css/style.css";
+@import "assets/templates/kpi_dashboard/css/plugins/toastr/toastr.min.css";
+@import "assets/templates/kpi_dashboard/js/plugins/gritter/jquery.gritter.css";
+@import "../node_modules/ng2-datetime/src/vendor/bootstrap-datepicker/bootstrap-datepicker3.min.css";
+@import "../node_modules/ng2-datetime/src/vendor/bootstrap-timepicker/bootstrap-timepicker.min.css";
+@import "assets/templates/kpi_dashboard/css/plugins/c3/c3.min.css";

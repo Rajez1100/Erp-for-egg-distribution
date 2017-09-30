@@ -1,7 +1,7 @@
 // Configurations
-export const baseURL = "http://0.0.0.0:8001/";
+export const baseURL = "http://eggs.vijayavelantraders.com/";
 
-export const CompanyName: Array<string> = ['VVG', 'Vijaya Velan Eggs'];
+export const CompanyName: Array<string> = ['VVT', 'Vijaya Velan Eggs'];
 
 export const currencySymbols = {
     'INR': '₹',

@@ -3997,8 +3997,8 @@ function GetApiurl(path, queryParams) {
 /* unused harmony export monthNames */
 // Configurations
 // Configurations
-var baseURL = "http://0.0.0.0:8001/";
-var CompanyName = ['VVG', 'Vijaya Velan Eggs'];
+var baseURL = "http://eggs.vijayavelantraders.com/";
+var CompanyName = ['VVT', 'Vijaya Velan Eggs'];
 var currencySymbols = {
     'INR': '₹',
     'USD': '$'

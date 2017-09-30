@@ -19,7 +19,7 @@ export class EggCollectionsListComponent implements OnInit {
       { title: 'Farm', name: 'farm_name', sort: true },
       { title: 'Rate', name: 'rate', sort: true , type: 'number', fraction: 2 },
       { title: 'Sales Team', name: 'sales_team_name', sort: true },
-      { title: 'Plates', name: 'no_of_plates', sort: true },
+      { title: 'Trays', name: 'no_of_plates', sort: true },
       { title: 'Actions', links: ['View', 'Edit'], }
     ],
     rows: [],

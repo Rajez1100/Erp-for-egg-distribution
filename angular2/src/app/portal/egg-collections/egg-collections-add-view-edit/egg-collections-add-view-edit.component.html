@@ -37,10 +37,10 @@
 								<label class="col-md-3 control-label">Sales Team</label>
 								<label class="col-md-8 control-value colon-before">{{details.sales_team_name}}</label>
 							</div>
-							<!--Plates-->
+							<!--Trays-->
 							<div class="form-group row">
-								<label class="col-md-3 control-label">Plates</label>
-								<label class="col-md-8 control-value colon-before">{{details.no_of_plates}}&ensp;plates.</label>
+								<label class="col-md-3 control-label">Trays</label>
+								<label class="col-md-8 control-value colon-before">{{details.no_of_plates}}&ensp;trays.</label>
 							</div>
 						</div>
 					</div>
@@ -76,7 +76,7 @@
 								</div>
 								<div class="form-group">
 									<label>Rate</label>
-									<input type="text" formControlName="rate" appCurrencyFormatter [currency]="currencyFormat" placeholder="Rate of an egg plate"
+									<input type="text" formControlName="rate" appCurrencyFormatter [currency]="currencyFormat" placeholder="Rate of an egg tray"
 										class="form-control">
 									<control-messages [control]="form.controls.rate"></control-messages>
 								</div>
@@ -88,8 +88,8 @@
 									<control-messages [control]="form.controls.sales_team"></control-messages>
 								</div>
 								<div class="form-group">
-									<label>Plates</label>
-									<input type="number" formControlName="no_of_plates" placeholder="No of plates" class="form-control">
+									<label>Trays</label>
+									<input type="number" formControlName="no_of_plates" placeholder="No of trays" class="form-control">
 									<control-messages [control]="form.controls.no_of_plates"></control-messages>
 								</div>
 							</div>

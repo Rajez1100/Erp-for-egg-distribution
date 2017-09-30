@@ -17,7 +17,7 @@ export class SalesSummaryListComponent implements OnInit {
     columns: [
       { title: 'Date', name: 'date', sort: true },
       { title: 'Sales Team', name: 'sales_team_name', sort: true },
-      { title: 'Plates Sold', name: 'total_plates', sort: false },
+      { title: 'Trays Sold', name: 'total_plates', sort: false },
       { title: 'Cost', name: 'total_cost', sort: false, type: 'number', fraction: 2 },
       { title: 'Cash Collected', name: 'cash_handovered', sort: true, type: 'number', fraction: 2 },
       { title: 'Outstanding', name: 'total_outstanding', sort: false, type: 'number', fraction: 2 },

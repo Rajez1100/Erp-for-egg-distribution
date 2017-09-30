@@ -18,7 +18,7 @@ export class DemandTransfersListComponent implements OnInit {
       { title: 'Date', name: 'date', sort: true },
       { title: 'Transfer From', name: 'transfer_from_name', sort: true },
       { title: 'Transfer To', name: 'transfer_to_name', sort: true },
-      { title: 'Plates', name: 'no_of_plates', sort: true },
+      { title: 'Trays', name: 'no_of_plates', sort: true },
       { title: 'Actions', links: ['View', 'Edit'], }
     ],
     rows: [],

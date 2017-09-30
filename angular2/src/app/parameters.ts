@@ -1,5 +1,5 @@
 // Configurations
-export const baseURL = "http://velan.egg-transport.com:8001/";
+export const baseURL = "http://0.0.0.0:8001/";
 
 export const CompanyName: Array<string> = ['VVG', 'Vijaya Velan Eggs'];
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CompanyName } from 'app/parameters';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  companyName = CompanyName;
 
   constructor() { }
 

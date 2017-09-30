@@ -43,7 +43,7 @@ export class PaymentsReportComponent implements OnInit {
     columns: [
       { title: 'Date', name: 'date', sort: true },
       { title: 'Farm', name: 'farm_name', sort: false },
-      { title: 'Plates Purchased', name: 'plates_collection', sort: true, type: 'number', fraction: 2 },
+      { title: 'Trays Purchased', name: 'plates_collection', sort: true, type: 'number', fraction: 2 },
       { title: 'Purchase Cost', name: 'cost_collection', sort: true, type: 'number', fraction: 2 },
       { title: 'Paid Amount', name: 'cost_payment', sort: true, type: 'number', fraction: 2 }
     ],
